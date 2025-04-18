@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <kipr/wombat.h>
+
+#define FL 2
+#define FR 3
+#define RL 1
+#define RR 0
+
+// Move forward - plain version
+void forward(int speed, int duration) {
+    cmpc(FL); cmpc(FR); cmpc(RL); cmpc(RR);
+    mav(FL, speed);
+    mav(FR, -speed);
+    mav(RL, speed);
+    mav(RR, -speed);
+    msleep(duration);
+    ao();
+    printf("FL: %d\n", gmpc(FL));
+    printf("FR: %d\n", gmpc(FR));
+    printf("RL: %d\n", gmpc(RL));
+    printf("RR: %d\n", gmpc(RR));
+}
