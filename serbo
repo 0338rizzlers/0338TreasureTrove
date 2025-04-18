@@ -1,0 +1,13 @@
+#include <stdio.h>
+#include <kipr/wombat.h>
+
+// Slow servo movement function
+void serbo(int port, int position, int speed) {
+    enable_servo(port);
+    int servo_position = get_servo_position(port);
+    while (servo_position != position) {
+        if (servo_position > position) servo_position--;
+        else if (servo_position < position) servo_position++;
+        set_servo_position(port, servo_position);
+        msleep(speed);
+    }
