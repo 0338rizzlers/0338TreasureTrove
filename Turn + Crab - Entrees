@@ -1,0 +1,45 @@
+#include <stdio.h>
+ #include <kipr/wombat.h>
+ #define front_left 2
+ #define front_right 3 
+#define rear_left 1
+ #define rear_right 0
+ // Turning plain code.
+ void turn( int speed, int duration) {
+ cmpc(front_left);
+ cmpc(front_right);
+ cmpc(rear_right);
+ cmpc(rear_left);
+ mav(rear_right, speed);
+ mav(front_left, speed);
+ mav(rear_left, speed);
+ mav(front_right, speed);
+ msleep(duration);
+ mav(front_left, 0);
+ mav(rear_right, 0);
+ mav(rear_left, 0);
+ mav(front_right, 0); 
+//printf("FL: %d\n", gmpc(front_left));
+ //printf("RR: %d\n", gmpc(rear_right));
+ //printf("RL: %d\n", gmpc(rear_left));
+ //printf("FR: %d\n", gmpc(front_right));
+ } 
+void crab( int speed, int duration) {
+ cmpc(front_left);
+ cmpc(front_right);
+ cmpc(rear_right);
+ cmpc(rear_left);
+ mav(rear_right, -speed);
+ mav(front_left, speed);
+ mav(rear_left, -speed);
+ mav(front_right, speed);
+ msleep(duration);
+ mav(front_left, 0);
+ mav(rear_right, 0);
+ mav(rear_left, 0);
+ mav(front_right, 0);
+ printf("FL: %d\n", gmpc(front_left));
+ printf("RR: %d\n", gmpc(rear_right));
+ printf("RL: %d\n", gmpc(rear_left));
+ printf("FR: %d\n", gmpc(front_right));
+ }
