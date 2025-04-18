@@ -1,0 +1,467 @@
+#include <kipr/wombat.h>
+//CLAW CLOSED=1520, OPEN=1000
+//ARM LOWERED=2040, RAISED 1650, START POS=260
+// MOTOR 0 is the right motor(in the direction of movement)
+// MOTOR 1 is the left motor (in the direction of movement)
+//MOTOR 3 controls the yaw of the arm 
+//ANALOG 0 is the right color sensor (in the direction of movement)
+// ANALOG 5 is the left color sensor (in the direction of movement)
+//SERVO 0 is vertical movement of the arm
+//SERVO 3 is the closing/opening of the arm(0 is open, 1024 is closed)
+
+int main() {
+    enable_servos();
+    int count = 0;
+    int counter = 260;
+    set_servo_position(3,900);
+    mav(1,1000);
+    mav(0,1000);
+    msleep(1250);
+    mav(1,1500);
+    mav(0,-1500);
+    msleep(850);
+    mav(1,0);
+    mav(0,0);
+    msleep(500);
+    mav(1,-1000);
+    mav(0,-1000);
+    msleep(500);
+    mav(1,0);
+    mav(0,0);
+    while(counter <2000) {
+        counter=counter+10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    msleep(100);
+    mav(1,1000);
+    mav(0,1000);
+    msleep(1000);
+    while(count < 23) {
+
+        printf("%d ", count);
+        (count++);
+        msleep(250);
+
+
+        if(analog(0) >= 3200 && analog(5) < 3200)
+        {
+            mav(1,100);
+            mav(0,-100);
+        }
+
+        else if(analog(0) < 3200 && analog(5) >= 3200)
+        {
+            mav(1,-100);
+            mav(0,100);
+        }
+
+        else {
+            mav(1,1000);
+            mav(0,930);
+        }
+
+
+    }
+
+    
+    mav(1,-1000);
+    mav(0,-1000);
+    msleep(600);
+    mav(1,0);
+    mav(0,0);
+    msleep(300);
+    set_servo_position(3,1750);
+    msleep(550);
+    while(counter >1550) {
+        counter=counter-10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    mav(1,1000);
+    mav(0,1000);
+    msleep(1150);
+    mav(0,0);
+    mav(1,0);
+    mav(0,-500);
+    mav(1,500);
+    msleep(350);
+    mav(0,0);
+    mav(1,0);
+    msleep(50);
+       while(counter <2000) {
+        counter=counter+10;
+        set_servo_position(0,counter);
+        msleep(10);
+           
+    }
+    mav(0,0);
+    mav(1,0);
+    msleep(50);
+    msleep(500);
+    
+    msleep(50);
+    mav(0,500);
+    mav(1,-500);
+    msleep(920);
+    mav(0,0);
+    mav(1,0);
+    msleep(100);
+    mav(0,-500);
+    mav(1,500);
+    msleep(600);
+    while(counter >1550) {
+        counter=counter-10;
+        set_servo_position(0,counter);
+        msleep(10);
+      }
+    //2nd poms get hit
+    while(analog(0) < 3000 || analog(5) <3000)
+    {
+        if(analog(0) >= 3000 && analog(5) < 3000)
+       {
+            mav(1,200);
+            mav(0,-750);
+       }
+        
+        else if(analog(0) < 3000 && analog(5) >= 3000)
+        {
+            mav(1,-750);
+            mav(0,200);
+        }
+        
+        else {
+            mav(1,1000);
+            mav(0,1000);
+        }
+        
+         }
+        mav(1,0);
+    mav(0,0);
+    msleep(50);
+      
+    
+   
+  
+    
+    mav(0,-1200);
+    mav(1,1200);
+    msleep(985);
+    mav(0,0);
+    mav(1,0);
+    msleep(500);
+    mav(1,1000);
+    mav(0,1000);
+    msleep(750);
+
+    mav(1,0);
+    mav(0,0);
+
+    msleep(100);
+     
+    while(counter <1700) {
+       counter=counter+10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    msleep(500);
+
+    set_servo_position(3,900);
+    //poms drop
+    
+    msleep(300);
+    mav(1,-1000);
+    mav(0,-1000);
+    msleep(860);
+    mav(0,0);
+    mav(1,0);
+    msleep(100);
+    mav(0,1500);
+    mav(1,-1500);
+    msleep(770);
+	motor(0,0);
+    motor(1,0);
+    msleep(200);
+    
+    //poms 3
+      while(counter <2040) {
+        counter=counter+10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    msleep(700);
+       mav(1,900);
+    	mav(0,900);
+    msleep(2920);
+    mav(0,-1000);
+    mav(1,-1000);
+    msleep(600);
+    set_servo_position(3,1750);
+    mav(0,0);
+    mav(1,0);
+    msleep(100);
+    
+    
+    mav(0,1000);
+    mav(1,1000);
+    msleep(800);
+    mav(0,0);
+    mav(1,0);
+    msleep(100);
+    
+     while(counter >1550) {
+        counter=counter-10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    mav(0,-1200);
+    mav(1,1200);
+    msleep(950);
+    mav(1,00);
+    mav(0,00);
+    msleep(100);
+    mav(1,1000);
+    mav(0,1000);
+    msleep(820);
+    mav(1,00);
+    mav(0,00);
+    msleep(100);
+    set_servo_position(3,900);
+    //3rd poms drop
+    msleep(500);
+    mav(1,-650);
+    mav(0,-1500);
+    msleep(3300);
+    mav(0,0);
+    mav(1,0);
+    msleep(50);
+    set_servo_position(3,825);
+    while(counter <2000) {
+        counter=counter+10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    mav(1,1000);
+    mav(0,1000);
+    msleep(3300);
+    mav(1,-500);
+    mav(0,-500);
+    msleep(600);
+
+    
+    mav(0,0);
+    mav(1,0);
+    msleep(50);
+     while(counter <2050) {
+        counter=counter+10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    msleep(100);
+    set_servo_position(3,1800);
+   msleep(1000);
+    while(counter >1500) {
+        counter=counter-10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    
+    while(analog(0) < 3000 || analog(5) <3000)
+    {
+        if(analog(0) >= 3000 && analog(5) < 3000)
+       {
+            mav(1,400);
+            mav(0,-1500);
+       }
+        
+        else if(analog(0) < 3000 && analog(5) >= 3000)
+        {
+            mav(1,-1500);
+            mav(0,400);
+        }
+        
+        else {
+            mav(1,700);
+            mav(0,700);
+        }
+        
+         }
+     
+    mav(1,0);
+        mav(0,0);
+    msleep(100);
+         mav(1,900);
+    mav(0,1500);
+    msleep(2000);
+    mav(1,0);
+    mav(0,0);
+    msleep(10);
+    mav(1,300);
+    mav(0,1500);
+    msleep(2100);
+    while(analog(0) < 3000 || analog(5) <3000)
+    {
+        if(analog(0) >= 3000 && analog(5) < 3000)
+       {
+            mav(1,200);
+            mav(0,-750);
+       }
+        
+        else if(analog(0) < 3000 && analog(5) >= 3000)
+        {
+            mav(1,-750);
+            mav(0,200);
+        }
+        
+        else {
+            mav(1,700);
+            mav(0,700);
+        }
+        
+         }
+    mav(0,0);
+    mav(1,0);
+    msleep(300);
+    mav(1,1500);
+    mav(0,1470);
+    msleep(3600);
+    mav(1,0);
+    mav(0,0);
+    msleep(100);
+    mav(0,-1500);
+    mav(1,1500);
+    msleep(820);
+    mav(1,0);
+    mav(0,0);
+    msleep(200);
+    mav(1,-1000);
+    mav(0,-1000);
+    msleep(200);
+    mav(1,0);
+    mav(0,0);
+    msleep(200);
+     while(counter <1700) {
+       counter=counter+10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    set_servo_position(3,900);
+    //2nd poms drop
+    msleep(1000);
+    mav(1,1000);
+    mav(0,1000);
+    msleep(200);
+    mav(1,-1500);
+    mav(0,1500);
+    msleep(830);
+    mav(1,0);
+    mav(0,0);
+    msleep(50);
+    mav(1,1000);
+    mav(0,900);
+    msleep(1000);
+    while(analog(0) < 3000 || analog(5) <3000)
+    {
+        if(analog(0) >= 3000 && analog(5) < 3000)
+       {
+            mav(1,200);
+            mav(0,-750);
+       }
+        
+        else if(analog(0) < 3000 && analog(5) >= 3000)
+        {
+            mav(1,-750);
+            mav(0,200);
+        }
+        
+        else {
+            mav(1,1500);
+            mav(0,1500);
+        }
+      
+         }
+    
+   
+    ao();
+    msleep(10);
+   
+    
+    
+   while(counter >1500) {
+       counter=counter-10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    mav(0,1500);
+        msleep(1360);
+    ao();
+    msleep(500);
+    mav(1,-1000);
+    mav(0,-1000);
+    msleep(300);
+    ao();
+    msleep(200);
+   
+   
+    
+    while(counter <1850) {
+       counter=counter+10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    msleep(500);
+    set_servo_position(3,1800);
+    msleep(500);
+     set_servo_position(1,1670);
+    msleep(500);
+    while(counter >700) {
+       counter=counter-10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    msleep(500);
+   
+    ao();
+    msleep(500);
+    set_servo_position(3,1000);
+    msleep(500);
+     while(counter <1500) {
+       counter=counter+10;
+        set_servo_position(0,counter);
+        msleep(10);
+    }
+    ao();
+    msleep(100);
+    mav(1,-1000);
+    mav(0,-900);
+    msleep(1400);
+    mav(1,0);
+    mav(0,0);
+    msleep(500);
+   while(counter >1000) {
+       counter=counter-30;
+        set_servo_position(1,counter);
+        msleep(20);
+    }
+   
+    
+    
+     
+
+    
+        
+        
+ 
+    
+
+    
+    
+    
+    
+
+    
+      
+
+	
+    return 0;
+}
