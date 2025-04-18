@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <kipr/wombat.h>
+
+#define FL 2
+#define FR 3
+#define RL 1
+#define RR 0
+
+// Move function
+int black_factor = 2200;
+
+void move(int mtrFLpwr, int mtrFRpwr, int mtrRLpwr, int mtrRRpwr, int time) //move(1) is a move function that utilises the motor position counter to ensure accurate movement. {
+    cmpc(FL); cmpc(FR); cmpc(RL); cmpc(RR);
+    mav(FL, -mtrFLpwr * 0.95);
+    mav(FR,  mtrFRpwr * 0.95);
+    mav(RL, -mtrRLpwr * 0.95);
+    mav(RR,  mtrRRpwr * 0.95);
+    msleep(time);
+    ao();
+    printf("FL: %d\n", gmpc(FL));
+    printf("FR: %d\n", gmpc(FR));
+    printf("RL: %d\n", gmpc(RL));
+    printf("RR: %d\n", gmpc(RR));
+}
+
+void move2(int mtrRRpwr, int mtrRLpwr, int mtrFRpwr, int mtrFLpwr) //move(2) is a move function that simply moves the robot's motors at a certain velocity in a way to condone a uniform forward, backward, or lateral movement {
+    mav(RR, mtrRRpwr);
+    mav(RL, -mtrRLpwr * 0.95);
+    mav(FR, mtrFRpwr);
+    mav(FL, -mtrFLpwr * 0.95);
+}
+
+// Slow Servo function
+void servo(int port, int position, int speed) { //Servo is a function used to move the servo at a certain speed to a desired position
+    int servo_position = get_servo_position(port);
+    while (servo_position != position) {
+        if (servo_position > position) servo_position--;
+        else if (servo_position < position) servo_position++;
+        set_servo_position(port, servo_position);
+        msleep(speed);
+    }
+}
+
+#include <stdlib.h> // Needed for labs()
+
+void line_follow(int distance, int speed, float factor)//this is our linefollow code which takes distance, speed, and a factor to reduce the abruptness of the robot correcting for a straight line. The factor value is usually less that .1 {
+    cmpc(0);
+    while (labs(gmpc(0)) < distance) {
+        int error = analog(0) - black_factor;
+        float diff = factor * error;
+        move2(speed + diff, speed - diff, speed + diff, speed - diff);
+        printf("analog: %d   correction: %f   Motor: %ld   Distance: %d\n",
+               analog(0), diff, gmpc(0), distance);
+    }
+    move2(0, 0, 0, 0);
+    msleep(20);
