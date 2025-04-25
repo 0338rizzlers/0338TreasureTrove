@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <kipr/wombat.h>
+
+#define FL 2
+#define FR 3
+#define RL 1
+#define RR 0
+
+void crabwalk(int direction, int distance){
+    cmpc(FL);
+    cmpc(FR);
+    cmpc(RL);
+    cmpc(RR);
+    int glbl_dis = distance;
+    if(direction == 1){
+        while(abs(gmpc(FR)) < glbl_dis){
+            mav(FL, 1500);
+            mav(RL, -1500);
+            mav(FR, 1500);
+            mav(RR, -1500);
+            //printf(FR, "\n");
+        }
+    } else {
+        while(abs(gmpc(FR)) < glbl_dis){
+            mav(FL, -1500);
+            mav(RL, 1500);
+            mav(FR, -1500);
+            mav(RR, 1500);
+        }
+    }
+    ao();
+}
