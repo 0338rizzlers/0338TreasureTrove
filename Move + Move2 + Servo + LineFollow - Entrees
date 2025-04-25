@@ -7,10 +7,16 @@
 #define RR 0
 
 // Move function
-int black_factor = 2200;
+int black_factor_2 = 1863;
+int black_factor_1 = 2067;
+float factor_entrees = 0.05;
+    float factor_trays = -0.1;
 
-void move(int mtrFLpwr, int mtrFRpwr, int mtrRLpwr, int mtrRRpwr, int time) //move(1) is a move function that utilises the motor position counter to ensure accurate movement. {
-    cmpc(FL); cmpc(FR); cmpc(RL); cmpc(RR);
+void move(int mtrFLpwr, int mtrFRpwr, int mtrRLpwr, int mtrRRpwr, int time) {
+    cmpc(FL); 
+    cmpc(FR); 
+    cmpc(RL); 
+    cmpc(RR);
     mav(FL, -mtrFLpwr * 0.95);
     mav(FR,  mtrFRpwr * 0.95);
     mav(RL, -mtrRLpwr * 0.95);
@@ -23,15 +29,34 @@ void move(int mtrFLpwr, int mtrFRpwr, int mtrRLpwr, int mtrRRpwr, int time) //mo
     printf("RR: %d\n", gmpc(RR));
 }
 
-void move2(int mtrRRpwr, int mtrRLpwr, int mtrFRpwr, int mtrFLpwr) //move(2) is a move function that simply moves the robot's motors at a certain velocity in a way to condone a uniform forward, backward, or lateral movement {
+void move2(int mtrRRpwr, int mtrRLpwr, int mtrFRpwr, int mtrFLpwr) {
     mav(RR, mtrRRpwr);
     mav(RL, -mtrRLpwr * 0.95);
     mav(FR, mtrFRpwr);
     mav(FL, -mtrFLpwr * 0.95);
+    
 }
-
+void mws(int mtrFLpwr, int mtrFRpwr, int mtrRLpwr, int mtrRRpwr, int ttd) {//ttd = time to deactivation. this is the time in between when the switch is triggered and when the motor actually stops
+    cmpc(FL); 
+    cmpc(FR); 
+    cmpc(RL); 
+    cmpc(RR);
+    mav(FL, -mtrFLpwr * 0.95);
+    mav(FR,  mtrFRpwr * 0.95);
+    mav(RL, -mtrRLpwr * 0.95);
+    mav(RR,  mtrRRpwr * 0.95);
+    while(digital(0) == 0){
+        msleep(1);
+    }
+    msleep(ttd);
+    ao();
+    printf("FL: %d\n", gmpc(FL));
+    printf("FR: %d\n", gmpc(FR));
+    printf("RL: %d\n", gmpc(RL));
+    printf("RR: %d\n", gmpc(RR));
+}
 // Slow Servo function
-void servo(int port, int position, int speed) { //Servo is a function used to move the servo at a certain speed to a desired position
+void servo(int port, int position, int speed) {
     int servo_position = get_servo_position(port);
     while (servo_position != position) {
         if (servo_position > position) servo_position--;
@@ -43,14 +68,28 @@ void servo(int port, int position, int speed) { //Servo is a function used to mo
 
 #include <stdlib.h> // Needed for labs()
 
-void line_follow(int distance, int speed, float factor)//this is our linefollow code which takes distance, speed, and a factor to reduce the abruptness of the robot correcting for a straight line. The factor value is usually less that .1 {
+void line_follow(int distance, int speed, float factor, int port) {
     cmpc(0);
     while (labs(gmpc(0)) < distance) {
-        int error = analog(0) - black_factor;
-        float diff = factor * error;
-        move2(speed + diff, speed - diff, speed + diff, speed - diff);
+        int error = analog(2) - black_factor_2;
+        float diff = factor_trays * error;
+        move2(speed - diff, speed + diff, speed - diff, speed + diff);
         printf("analog: %d   correction: %f   Motor: %ld   Distance: %d\n",
-               analog(0), diff, gmpc(0), distance);
+               analog(2), diff, gmpc(0), distance);
     }
     move2(0, 0, 0, 0);
     msleep(20);
+}
+
+void line_follow2(int distance, int speed, float factor, int port) {
+    cmpc(0);
+    while (labs(gmpc(0)) < distance) {
+        int error = analog(1) - black_factor_1;
+        float diff = factor_entrees * error;
+        move2(speed + diff, speed - diff, speed + diff, speed - diff);
+        printf("analog: %d   correction: %f   error %d, Motor: %ld   Distance: %d\n",
+               analog(1), diff, error, gmpc(0), distance);
+    }
+    move2(0, 0, 0, 0);
+    msleep(20);
+}
