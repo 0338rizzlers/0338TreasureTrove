@@ -18,48 +18,31 @@
 // To crabwalk :       void crabwalk(int direction(0 = right, 1 = left), int duration)
 // To line follow:     void line_follow(int distance, int speed, float factor, int port)
 // To use the servos:  void serbo(int port, int position, int speed) **** ITS SERBO NOT SERVO****
-
-//                                                                     PORTS
-
-//                                                                     Servos
-//Arm: 2
-//Claw: 0
-//                                                                     Analog Sensors
-//Right Sensor: 1
-//Left Sensor: 2
-//                                                                     Motors
-//FL: 2
-//FR: 3
-//RL: 1
-//RR: 0
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int main() {
-    float factor_entrees = -0.2;//CHANGE BOTH OF THESE IN MOVE.H IF YOU CHANGE IT HERE AND VICE VERSA
+    float factor_entrees = -0.4;//CHANGE BOTH OF THESE IN MOVE.H IF YOU CHANGE IT HERE AND VICE VERSA
     float factor_trays = 1.4;
     // Hamburger
-    //msleep(4000);
-    /*serbo(2, 650, 1);
-    serbo(0,2047,1); //just adjust the claw to optimal position
-    move(1500,1500,1500,1500,2230); //move to the corner of the table
+    serbo(2, 700, 1);
+    serbo(0,2100,1); //just adjust the claw to optimal position
+    //msleep(3000);
+    move(1500,1500,1500,1500,2400); //move to the corner of the table
     turn(-1500,1400); //turn to face entrees
-    move(1500,1500,1500,1500,3850); //move forward towards the hamburger
+    move(1500,1500,1500,1500,3800); //move forward towards the hamburger
+    serbo(0,1400,1); 
     msleep(300);
-    //serbo(2,950,1);
-    serbo(2,700,1);
-    msleep(800);
-    serbo(0,1300,1); 
-    msleep(500);
+    serbo(2,850,1); //lower and clamp onto the claw
+    msleep(300); // wait a bit ********************IS THIS NECESSARY?**********************
     serbo(2,717,1); //go up
     move(-1500,-1500,-1500,-1500,1800); //goes back a lil after grabbing the burger;
     turn(-1500,1500);// turns right
-    move(-1000,-1000,-1000,-1000,1000);
-    //msleep(17000); // waits for the oter bot to get out of the way
+    //msleep(16000); // waits for the oter bot to get out of the way
     line_follow2(8096, 1500, factor_trays, 1); //linee follow code to the second box.
     turn(-1500,1300); //turns right towards the second box
     move(1500,1500,1500,1500,1600); //move towards the second box
     serbo(2,1300,1);
-    serbo(0,2407,1); //disclamps th burger
+    serbo(0,2047,1); //disclamps th burger
     msleep(500);
     
     //Hot dog
@@ -67,49 +50,49 @@ int main() {
     serbo(0,2047,1);
     move(-1500,-1500,-1500,-1500,655); // backs up
     turn(-1500,1550); // turns right towards line
-    line_follow2(6551, 1500, factor_entrees, 1); // go to the line perpendicular to the starting box
-    move(1500,1500,1500,1500,940); // disengages line follow past black line, MAYBE CHANGE MSLEEP VALUE TO 1000
-    move(0,0,0,0,100);
-    msleep(300);
+    line_follow2(5051, 1500, factor_entrees, 1); // go to the line perpendicular to the starting box
+    move(1500,1500,1500,1500,1650); // disengages line follow past black line, MAYBE CHANGE MSLEEP VALUE TO 940
     //move(-1000, -1000, -1000, -1000, 845);// back up a bit
-    turn(-1350, 1500); // turns right towards warming station
+    turn(-1350, 1410); // turns right towards warming station
     //crabwalk(1,700);
     printf("First crabwalk done");
     //msleep(300); //wait a bit
     //crabwalk(0, 950);
     printf("second crabwalk done");
-    move(1500,1500,1500,1500,1635); // move towards the serving station
+    move(1500,1500,1500,1500,1435); // move towards the serving station
     serbo(2,850,1); 
     serbo(0,1400,1); //lower and clamp onto the claw
-    msleep(1500);
+    msleep(200);
     serbo(2,717,1); //go up
     move(-1500,-1500,-1500,-1500,1500); //goes back a lil after grabbing the hot dog
     turn(-1500,1470);// turns right
-    line_follow2(10324, 1500, factor_trays, 1); //linee follow code to the fourth box.
-    turn(-1500,1400); //turns right towards the second box
+    printf("you are sigma :) \n");
+    msleep(1000);
+    line_follow2(12424, 1500, factor_trays, 1); //linee follow code to the fourth box.
+    turn(-1500,1250); //turns right towards the second box
     move(1500,1500,1500,1500,1200); //move towards the second box
-    serbo(2,1300,1);
+    move(-1500,-1500,-1500,-1500,700);
+    serbo(2,1200,1);
     serbo(0,2047,1); //disclamps the hottie dawg
     msleep(500);
     
     // Taco
-    */serbo(2, 650, 1); // reset arm + claw
     serbo(0,2047,1);
-    move(-1500,-1500,-1500,-1500,1100); // backs up
+    serbo(2, 700, 1);
+
+    move(-1500,-1500,-1500,-1500,1000); // backs up
     turn(-1500,1250); // turns right towards line
-    move(1500,1500,1500,1500,2000);
-    printf("skibidi\n");
-    line_follow2(6774, 1500, factor_entrees, 1); // go to the line perpendicular to the starting box
-    printf("line follow done\n");
-    msleep(1000);
-    turn(-1350,1500);
+    move(1500, 1500, 1500, 1500, 3000);
+    line_follow2(7674, 1500, factor_entrees, 1); // go to the line perpendicular to the starting box
+    turn(-750, 2750); // turns right towards warming station
     serbo(0,2047,1);
-    move(1600,1600,1600,1600,1050); // move towards the serving station
-    serbo(2,925,1); 
-    serbo(0,1300,1); //lower and clamp onto the claw , grabs taco
+    move(1600,1600,1600,1600,1350); // move towards the serving station
+    serbo(2,875,1); 
+    serbo(0,1300,1); //lower and clamp onto the claw , grabs taco=
     serbo(2,717,1); //go up
      move(-1500,-1500,-1500,-1500,1850); //goes back a lil after grabbing the taco
     turn(-1500,1500);// turns right
+    move(1500, 1500, 1500, 1500, 2000);
     line_follow(9068, 1500, factor_trays, 2); //linee follow code to the second box.
     printf("Done with line follow \n");
     turn(-1000,1960); //turns right towards the second box
