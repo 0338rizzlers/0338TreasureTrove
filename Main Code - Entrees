@@ -7,9 +7,14 @@
 #include "Forward.h"
 #include "line_follow_calibration.h"
 #include "crabwalk.h"
+
+
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                                                                     NOTES
 //                                MAKE SURE TO SAVE YOUR CODE!!!!!! MAKE SURE TO SAVE YOUR CODE!!!! EVEN BEFORE SWITCHING FILES IN THE SAME PROJECT!!!
+
+//                                ALL MEASUREMENTS ARE ASSUMED WITH A FULL BATTERY
+
 //                               ALSO MAKE SURE TO HAVE A ; AT THE END OF EVERY CODE!
 // Slow Servo:         void servo(int port, int position, int speed)
 // Move:               void move(int mtrFLpwr, int mtrFRpwr, int mtrRLpwr, int mtrRRpwr, int time)  
@@ -17,84 +22,102 @@
 // To Turn :           void turn( int speed, int duration)
 // To crabwalk :       void crabwalk(int direction(0 = right, 1 = left), int duration)
 // To line follow:     void line_follow(int distance, int speed, float factor, int port)
-// To use the servos:  void serbo(int port, int position, int speed) **** ITS SERBO NOT SERVO****
+// To use the servos:  void serbo(int port, int position, int waiting) **** ITS SERBO NOT SERVO****
 // /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 int main() {
+    int arm_above_tray = 1147;
+    int arm_90 = 600;
+    int arm_grab_burger = 675;
+    int arm_grab_others = 682;
+	
+    int claw_open = 2047;
+    int claw_close = 1200;
+    
     float factor_entrees = -0.4;//CHANGE BOTH OF THESE IN MOVE.H IF YOU CHANGE IT HERE AND VICE VERSA
+    float factor_entrees_far = -0.2;
     float factor_trays = 1.4;
     // Hamburger
-    msleep(4500);
-    serbo(2, 700, 1);
-    serbo(0,2100,1); //just adjust the claw to optimal position
-    //msleep(3000);
+    //msleep(4500);
+    serbo(2, arm_grab_burger, 1);
+    serbo(0,claw_open,1); //just adjust the claw to optimal position
     move(1500,1500,1500,1500,2200); //move to the corner of the table
     turn(-1500,1500); //turn to face entrees
-    move(1500,1500,1500,1500,3450); //move forward towards the hamburger
+    move(1500,1500,1500,1500,3250); //move forward towards the hamburger
     msleep(400);
-    serbo(2,850,1); //lower and clamp onto the claw
-    move(0,300,0,300,1500);
-    move(300,300,300,300,1100);
-    serbo(0,1400,1); 
-    serbo(2,717,1); //go up
+    move(0,500,0,500,1200);
+    move(500,500,500,500,1050);
+    serbo(0,claw_close,1); 
+    msleep(500);
+    serbo(2,arm_90,1); //go up
     move(-1500,-1500,-1500,-1500,1800); //goes back a lil after grabbing the burger;
     turn(-1500,1500);// turns right
     msleep(15500); // waits for the oter bot to get out of the way
     line_follow2(7996, 1500, factor_trays, 1); //linee follow code to the second box.
     turn(-1500,1300); //turns right towards the second box
     move(1500,1500,1500,1500,1600); //move towards the second box
-    serbo(2,1300,1);
-    serbo(0,2047,1); //disclamps th burger
+    move(-1500,-1500,-1500,-1500,250);
+    msleep(200);
+    serbo(2,arm_above_tray,1);
+    serbo(0,claw_open,1); //disclamps th burger
     msleep(500);
     
     //Hot dog
-    serbo(2, 650, 1); // reset arm + claw
-    serbo(0,2047,1);
-    move(-1500,-1500,-1500,-1500,655); // backs up
+    serbo(2, arm_90, 1); // reset arm + claw
+    serbo(0,claw_open,1);
+    move(-1500,-1500,-1500,-1500,555); // backs up
     turn(-1500,1550); // turns right towards line
-    line_follow2(5100, 1500, factor_entrees, 1); // go to the line perpendicular to the starting box
+    line_follow2(4990, 1500, factor_entrees, 1); // go to the line perpendicular to the starting box
     move(1500,1500,1500,1500,1650); // disengages line follow past black line, MAYBE CHANGE MSLEEP VALUE TO 940
     //move(-1000, -1000, -1000, -1000, 845);// back up a bit
-    turn(-1350, 1380); // turns right towards warming station
+    turn(-1350, 1480); // turns right towards warming station
     move(1500,1500,1500,1500,1405); // move towards the serving station
-    serbo(2,850,1); 
-    serbo(0,1400,1); //lower and clamp onto the claw
+    serbo(2,arm_grab_others,1); 
+    serbo(0,claw_close,1); //lower and clamp onto the claw
     msleep(200);
-    serbo(2,717,1); //go up
+    serbo(2,arm_90,1); //go up
     move(-1500,-1500,-1500,-1500,1500); //goes back a lil after grabbing the hot dog
     turn(-1500,1470);// turns right
-    msleep(5000);
-    line_follow2(12274, 1500, factor_trays, 1); //linee follow code to the fourth box.
+    msleep(3000);
+    line_follow2(12530, 1500, factor_trays, 1); //linee follow code to the fourth box.
     turn(-1500,1300); //turns right towards the second box
     move(1500,1500,1500,1500,1200); //move towards the second box
     move(-1500,-1500,-1500,-1500,100);
-    serbo(2,1200,1);
-    serbo(0,2047,1); //disclamps the hottie dawg
+    serbo(2,arm_above_tray,1);
+    serbo(0,claw_open,1); //disclamps the hottie dawg
     msleep(500);
     
     // Taco
-    serbo(0,2047,1);
-    serbo(2, 700, 1);
+    serbo(2, arm_90, .001);
 
-    move(-1500,-1500,-1500,-1500,1000); // backs up
+    move(-1500,-1500,-1500,-1500,450); // backs up
     turn(-1500,1350); // turns right towards line
     move(1500, 1500, 1500, 1500, 3000);
-    line_follow2(6900, 1500, factor_entrees, 1); // go to the line perpendicular to the starting box
+    line_follow2(6900, 1500, factor_entrees_far, 1); // go to the line perpendicular to the starting box
     turn(-750, 2750); // turns right towards warming station
-    serbo(0,2047,1);
+    serbo(0,claw_open,1);
     move(1600,1600,1600,1600,1350); // move towards the serving station
-    serbo(2,875,1); 
-    serbo(0,1300,1); //lower and clamp onto the claw , grabs taco=
-    serbo(2,717,1); //go up
-     move(-1500,-1500,-1500,-1500,1850); //goes back a lil after grabbing the taco
-    turn(-1500,1500);// turns right
-    move(1500, 1500, 1500, 1500, 2000);
-    line_follow(9068, 1500, factor_trays, 2); //linee follow code to the second box.
+    msleep(1000);
+    serbo(2,arm_grab_others,1); 
+    serbo(0,claw_close,1); //lower and clamp onto the claw , grabs taco=
+    msleep(500);
+    serbo(2,arm_90,1); //go up
+     move(-1500,-1500,-1500,-1500,1650); //goes back a lil after grabbing the taco
+    turn(-1500,1350);// turns right
+    line_follow2(9500, 1500, factor_trays, 2); //linee follow code to the second box.
     printf("Done with line follow \n");
     turn(-1000,1960); //turns right towards the second box
     move(1500,1500,1500,1500,1100); //move towards the second box
-    serbo(2,1300,1);
-    serbo(0,2047,1); //disclamps the taco belle
+    move(-1500,-1500,-1500,-1500,200);
+    serbo(2,arm_above_tray,1);
+    serbo(0,claw_open,1); //disclamps the taco belle
+    msleep(500);
+
+    //Tactical Retreat
+    move(-1500,-1500,-1500,-1500,555);
+    serbo(2,700,.001);
+    turn(-1500,1250);
+    move(1500,1500,1500,1500,4500);//France Flag 1940
     printf("The code has failed to complete please send your credit card number to totallyrealUPS.com\n");
     return 0;
 }
