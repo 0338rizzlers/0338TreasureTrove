@@ -27,9 +27,9 @@ int main() {
     //preset positions - arm
     int arm_above_tray = 1100;
     int arm_90 = 600;
-    int arm_grab_burger = 750;
-    int arm_grab_hotdog = 750;
-    int arm_grab_taco = 790;
+    int arm_grab_burger = 730;
+    int arm_grab_hotdog = 710;
+    int arm_grab_taco = 750;
 	//preset positions - claw
     int hamburger_claw_open = 1000;
     int hot_dog_open = 1000;
@@ -51,7 +51,7 @@ int main() {
     //shut_down_in(119);
     
     //msleep variable
-    int no_sleep = 0;
+    int no_sleep = 1;
     if(no_sleep == 0){
         msleep(5500);
     }
@@ -64,7 +64,7 @@ int main() {
     move(1500,1500,1500,1500,3225); //move forward towards the hamburger
     msleep(400);
     move(0,500,0,500,1200);
-    move(500,500,500,500,1500);
+    move(500,500,500,500,1350);
     serbo(claw,claw_close,1); 
     msleep(500);
     serbo(arm,arm_90,5); //go up
@@ -73,8 +73,8 @@ int main() {
     if(no_sleep == 0){
     	msleep(14500); // waits for the oter bot to get out of the way
     }
-    line_follow2(7996, 1500, factor_trays, 1); //linee follow code to the second box.
-    turn(-1500,1300); //turns right towards the second box
+    line_follow2(7896, 1500, factor_trays, 1); //linee follow code to the second box.
+    turn(-1500,1250); //turns right towards the second box
     move(1500,1500,1500,1500,1600); //move towards the second box
     move(-1500,-1500,-1500,-1500,150);
     msleep(200);
@@ -100,9 +100,9 @@ int main() {
     move(-1500,-1500,-1500,-1500,1700); //goes back a lil after grabbing the hot dog
     turn(-1500,1470);// turns right
     if(no_sleep == 0){
-    	msleep(4000);
+    	msleep(2000);
     }
-    line_follow2(12730, 1500, factor_trays, 1); //linee follow code to the fourth box.
+    line_follow2(12930, 1500, factor_trays, 1); //linee follow code to the fourth box.
     turn(-1500,1300); //turns right towards the second box
     move(1500,1500,1500,1500,1200); //move towards the second box
     move(-1500,-1500,-1500,-1500,100);
@@ -138,7 +138,7 @@ int main() {
     //Tactical Retreat
     move(-1500,-1500,-1500,-1500,555);
     serbo(arm,arm_90,10);
-    turn(-1500,1550);
+    turn(-1500,1500);
     move(1500,1500,1500,1500,4500);//France Flag 1940
     printf("The code has failed to complete please send your credit card number to totallyrealUPS.com\n");
     return 0;
